@@ -1,0 +1,44 @@
+{
+    "pathwayTitle": "Knative on OpenShift",
+    "icon": "fa-openshift",
+    "title": "Introduction to Knative on OpenShift",
+    "description": "Deploying Knative on OpenShift",
+    "difficulty": "beginner",
+    "time": "5 minutes",
+    "details": {
+        "intro": {
+            "courseData": "env-init.sh",
+            "code": "set-env.sh"
+            "text": "00-intro.md",
+            "credits": "http://developers.redhat.com" 
+        },
+        "steps": [
+            {
+                "title": "Step 1",
+                "text": "01-knative-design.md"
+            },
+            {
+                "title": "Step 2",
+                "text": "02-deploy-knative.md"
+            }
+        ],
+        "finish": {
+            "text": "finish.md"
+        }
+    },
+    "environment": {
+        "showdashboard": true,
+        "dashboards": [
+            {
+                "name": "OpenShift Console",
+                "port": 8443
+            }
+        ],
+        "uilayout": "terminal",
+        "uieditorpath": "/root/projects/knative"
+    },
+    "backend": {
+        "imageid": "openshift-3-10",
+        "port": 8443
+    }
+}
