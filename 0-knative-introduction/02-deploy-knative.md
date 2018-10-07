@@ -49,10 +49,7 @@ oc adm policy add-cluster-role-to-user cluster-admin -z istio-galley-service-acc
 curl -L https://storage.googleapis.com/knative-releases/serving/latest/istio.yaml | oc apply -f -
 ```{{execute}}
 
-**4. Wait for OpenWhisk Platform to Achieve Stable State**
-
-Apache OpenWhisk is comprised of many components that must startup and then sync-up with each other and this process can
-take several minutes to achieve stable state.  The following command will wait until the component pods are running:
+**4. Wait for Istio to Achieve Stable State**
 
 ``while $(oc get pods -n faas controller-0 | grep 0/1 > /dev/null); do sleep 1; done``{{execute}}
 
