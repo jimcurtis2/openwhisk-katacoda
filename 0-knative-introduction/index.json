@@ -8,7 +8,7 @@
     "details": {
         "intro": {
             "courseData": "env-init.sh",
-            "code": "set-env.sh"
+            "code": "set-env.sh",
             "text": "00-intro.md",
             "credits": "http://developers.redhat.com" 
         },
