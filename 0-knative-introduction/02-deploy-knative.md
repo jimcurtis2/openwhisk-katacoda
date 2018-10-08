@@ -26,12 +26,18 @@ cat << 'EOL' >> myjunk
 EOL
 grep -A 9999 'BuildDefaults:' /etc/origin/master/master-config.yaml >>myjunk
 mv -f myjunk /etc/origin/master/master-config.yaml
-docker ps -l -q --filter "label=io.kubernetes.container.name=api"
 docker stop $(docker ps -l -q --filter "label=io.kubernetes.container.name=api")
-docker ps -l -q --filter "label=io.kubernetes.container.name=api"
 ```{{execute}}
 
-**3. Deploy Istio**
+Now go on to next step.
+
+**3. Fix and Deploy Istio**
+
+The istio.yaml file that is recommended for Knative does not have the privileged security context needed for OpenShift.
+So, we will pull down a copy of the yaml and edit it before applying it.
+
+``curl -L https://storage.googleapis.com/knative-releases/serving/latest/istio.yaml > istio.yaml``{{execute}}
+
 
 ```
 oc label namespace default istio-injection=enabled
@@ -47,7 +53,7 @@ oc adm policy add-scc-to-user anyuid -z istio-mixer-service-account -n istio-sys
 oc adm policy add-scc-to-user anyuid -z istio-pilot-service-account -n istio-system
 oc adm policy add-scc-to-user anyuid -z istio-sidecar-injector-service-account -n istio-system
 oc adm policy add-cluster-role-to-user cluster-admin -z istio-galley-service-account -n istio-system
-curl -L https://storage.googleapis.com/knative-releases/serving/latest/istio.yaml | oc apply -f -
+oc apply -f istio.yaml
 ```{{execute}}
 
 **4. Wait for Istio to Achieve Stable State**
