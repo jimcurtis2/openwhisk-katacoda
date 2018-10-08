@@ -5,6 +5,21 @@
     "description": "Deploying Knative on OpenShift",
     "difficulty": "beginner",
     "time": "5 minutes",
+    "backend": {
+        "imageid": "openshift-3-10",
+        "port": 8443
+    },
+    "environment": {
+        "showdashboard": true,
+        "dashboards": [
+            {
+                "name": "OpenShift Console",
+                "port": 8443
+            }
+        ],
+        "uilayout": "terminal",
+        "uieditorpath": "/root/projects/knative"
+    },
     "details": {
         "intro": {
             "courseData": "env-init.sh",
@@ -25,20 +40,5 @@
         "finish": {
             "text": "finish.md"
         }
-    },
-    "environment": {
-        "showdashboard": true,
-        "dashboards": [
-            {
-                "name": "OpenShift Console",
-                "port": 8443
-            }
-        ],
-        "uilayout": "terminal",
-        "uieditorpath": "/root/projects/knative"
-    },
-    "backend": {
-        "imageid": "openshift-3-10",
-        "port": 8443
     }
 }
