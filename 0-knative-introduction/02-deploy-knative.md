@@ -38,6 +38,7 @@ So, we will pull down a copy of the yaml and edit it before applying it.
 
 ``curl -L https://storage.googleapis.com/knative-releases/serving/latest/istio.yaml > istio.yaml``{{execute}}
 
+``awk '{print} /securityContext:/ && !n {print "          privileged: true"; n++}' istio.yaml > istio-fixed.yaml``{{execute}}
 
 ```
 oc label namespace default istio-injection=enabled
@@ -53,12 +54,12 @@ oc adm policy add-scc-to-user anyuid -z istio-mixer-service-account -n istio-sys
 oc adm policy add-scc-to-user anyuid -z istio-pilot-service-account -n istio-system
 oc adm policy add-scc-to-user anyuid -z istio-sidecar-injector-service-account -n istio-system
 oc adm policy add-cluster-role-to-user cluster-admin -z istio-galley-service-account -n istio-system
-oc apply -f istio.yaml
+oc apply -f istio-fixed.yaml
 ```{{execute}}
 
 **4. Wait for Istio to Achieve Stable State**
 
-``while $(oc get pods -n faas controller-0 | grep 0/1 > /dev/null); do sleep 1; done``{{execute}}
+``while $(oc get pods -n istio-system | grep 0/1 > /dev/null); do sleep 1; done``{{execute}}
 
 
 Successful execution of the above command should display output like below:
