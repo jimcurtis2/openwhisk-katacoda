@@ -5,6 +5,7 @@ Now, that we understand the design of Knative, we will proceed to deploy Knative
 **1. Login as Admin**
 
 ``oc login -u system:admin``{{execute}}
+
 ``oc adm policy add-scc-to-user privileged -z default -n default``{{execute}}
 
 **2. Fix Admission Webhook Config**
@@ -24,7 +25,7 @@ cat << 'EOL' >> myjunk
          kind: DefaultAdmissionConfig
 EOL
 grep -A 9999 'BuildDefaults:' /etc/origin/master/master-config.yaml >>myjunk
-mv myjunk /etc/origin/master/master-config.yaml
+mv -f myjunk /etc/origin/master/master-config.yaml
 docker ps -l -q --filter "label=io.kubernetes.container.name=api"
 docker stop $(docker ps -l -q --filter "label=io.kubernetes.container.name=api")
 docker ps -l -q --filter "label=io.kubernetes.container.name=api"
