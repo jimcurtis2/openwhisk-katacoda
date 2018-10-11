@@ -35,6 +35,10 @@
             {
                 "title": "Step 2",
                 "text": "02-deploy-knative.md"
+            },
+            {
+                "title": "Step 3",
+                "text": "03-verify-knative.md"
             }
         ],
         "finish": {
