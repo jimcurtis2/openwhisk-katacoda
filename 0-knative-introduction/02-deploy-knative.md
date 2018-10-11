@@ -10,9 +10,12 @@ Now, that we understand the design of Knative, we will proceed to deploy Knative
 
 **2. Fix Admission Webhook Config**
 
+The standard OpenShift 3.10 does not have the Admission Webhook plugin configuration needed by Knative.  So
+we need to edit the configuration file and restart the container.
+
 ```
-sed '/pluginConfig:/q' /etc/origin/master/master-config.yaml >>myjunk
-cat << 'EOL' >> myjunk
+sed '/pluginConfig:/q' /etc/origin/master/master-config.yaml >>master-config.yaml
+cat << 'EOL' >> master-config.yaml
     MutatingAdmissionWebhook:
       configuration:
         apiVersion: v1
@@ -24,8 +27,8 @@ cat << 'EOL' >> myjunk
         disable: false
         kind: DefaultAdmissionConfig
 EOL
-grep -A 9999 'BuildDefaults:' /etc/origin/master/master-config.yaml >>myjunk
-mv -f myjunk /etc/origin/master/master-config.yaml
+grep -A 9999 'BuildDefaults:' /etc/origin/master/master-config.yaml >>master-config.yaml
+mv -f master-config.yaml /etc/origin/master/master-config.yaml
 ```{{execute}}
 
 Stop the docker container so it restarts with the new configuration.
@@ -66,14 +69,33 @@ oc adm policy add-cluster-role-to-user cluster-admin -z istio-galley-service-acc
 
 ``oc apply -f istio-fixed.yaml``{{execute}}
 
-**4. Wait for Istio to Achieve Stable State**
+Now, wait for Istio to achieve stable state.
 
-``while $(oc get pods -n istio-system | grep 0/1 > /dev/null); do sleep 1; done``{{execute}}
+``while $(oc get pods -n istio-system | grep istio-sidecar-injector | grep 0/1 > /dev/null); do sleep 1; done``{{execute}}
 
+**4. Deploy Knative Serving**
 
-Successful execution of the above command should display output like below:
+First, run the following to grant the necessary privileges to the service accounts Knative Serving will use:
 
-![OpenWhisk Default Catalog](../assets/ow_catalog_actions.png)
+```
+oc adm policy add-scc-to-user anyuid -z build-controller -n knative-build
+oc adm policy add-scc-to-user anyuid -z controller -n knative-serving
+oc adm policy add-scc-to-user anyuid -z autoscaler -n knative-serving
+oc adm policy add-scc-to-user anyuid -z kube-state-metrics -n monitoring
+oc adm policy add-scc-to-user anyuid -z node-exporter -n monitoring
+oc adm policy add-scc-to-user anyuid -z prometheus-system -n monitoring
+oc adm policy add-cluster-role-to-user cluster-admin -z build-controller -n knative-build
+oc adm policy add-cluster-role-to-user cluster-admin -z controller -n knative-serving
+```{{execute}}
+
+Next, apply the Knative Serving config:
+
+``curl -L https://storage.googleapis.com/knative-releases/serving/latest/release-lite.yaml | oc apply -f -``{{execute}}
+
+Now, wait for Knative Serving to achieve stable state.
+
+``while $(oc get pods -n knative-serving | grep 0/1 > /dev/null); do sleep 1; done``{{execute}}
+
 
 ## Congratulations
 
