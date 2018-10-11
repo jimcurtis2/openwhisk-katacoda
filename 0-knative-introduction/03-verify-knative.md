@@ -9,8 +9,9 @@ it works.
 It is good to pre-pull the hello-go sample image:
 ``docker pull gcr.io/knative-samples/helloworld-go``{{execute}}
 
-Next, we need to create a service yaml file to deploy the helloworld-go function when a request come in on the ingress gateway.
+Next, we need to create a service yaml file to deploy the helloworld-go function when a request comes in on the ingress gateway.
 Click on the link below to create an empty file called **helloworld-service.yaml** in the directory **/root/projects/knative** :
+
 ``helloworld-service.yaml``{{open}}
 
 Once the created file is opened in the editor, you can then copy the content below into the file (or use the `Copy to editor` button):
