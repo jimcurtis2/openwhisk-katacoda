@@ -2,7 +2,7 @@
 
 Now, that we understand the design of Knative, we will proceed to deploy Knative onto our OpenShift cluster.
 
-**1. Login as Admin**
+**1. Login as system user**
 
 ``oc login -u system:admin``{{execute}}
 
@@ -40,7 +40,7 @@ stablize before you can successfully execute an oc command, so we will do a slee
 
 ``sleep 10;oc get nodes``{{execute}}
 
-Now go on to next step.
+Now, go on to next step.
 
 **3. Fix and Deploy Istio**
 
@@ -51,6 +51,7 @@ So, we will pull down a copy of the yaml and edit it before applying it.
 
 ``awk '{print} /securityContext:/ && !n {print "          privileged: true"; n++}' istio.yaml > istio-fixed.yaml``{{execute}}
 
+Now, run the following to grant the necessary privileges to the service accounts Istio will use:
 ```
 oc label namespace default istio-injection=enabled
 oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
@@ -71,7 +72,7 @@ oc adm policy add-cluster-role-to-user cluster-admin -z istio-galley-service-acc
 
 Now, wait for Istio to achieve stable state.
 
-``while $(oc get pods -n istio-system | grep istio-sidecar-injector | grep 0/1 > /dev/null); do sleep 1; done``{{execute}}
+``until $(oc get pods -n istio-system | grep istio-sidecar-injector | grep 1/1 > /dev/null); do sleep 1; done``{{execute}}
 
 **4. Deploy Knative Serving**
 
@@ -94,9 +95,8 @@ Next, apply the Knative Serving config:
 
 Now, wait for Knative Serving to achieve stable state.
 
-``while $(oc get pods -n knative-serving | grep 0/1 > /dev/null); do sleep 1; done``{{execute}}
-
+``until $(oc get pods -n knative-serving | grep autoscaler | grep 2/2 > /dev/null); do sleep 1; done``{{execute}}
 
 ## Congratulations
 
-You have now deployed [Apache OpenWhisk](https://openwhisk.apache.org/) to the [OpenShift Container Platform](https://openshift.com]). 
+You have now deployed Knative onto an OpenShift cluster.  Continue on to verify your deployment with a Hello World function.
