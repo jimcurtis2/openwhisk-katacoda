@@ -34,7 +34,7 @@ Stop the docker container so it restarts with the new configuration.
 
 Verify that the cluster is still up and ready to go before continuing
 
-``sleep 3;oc get nodes``{{execute}}
+``sleep 5;oc get nodes``{{execute}}
 
 Now go on to next step.
 
