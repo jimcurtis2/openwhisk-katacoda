@@ -17,7 +17,8 @@
                 "port": 8443
             }
         ],
-        "uilayout": "terminal",
+        "uilayout": "editor-terminal",
+        "uisettings": "java",
         "uieditorpath": "/root/projects/knative"
     },
     "details": {
