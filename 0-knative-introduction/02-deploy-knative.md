@@ -32,9 +32,10 @@ Stop the docker container so it restarts with the new configuration.
 
 ``docker stop $(docker ps -l -q --filter "label=io.kubernetes.container.name=api")``{{execute}}
 
-Verify that the cluster is still up and ready to go before continuing
+Verify that the cluster is still up and ready to go before continuing.  It usually takes about 10 seconds for things to
+stablize before you can successfully execute an oc command, so we will do a sleep before the command.
 
-``sleep 15;oc get nodes``{{execute}}
+``sleep 10;oc get nodes``{{execute}}
 
 Now go on to next step.
 
