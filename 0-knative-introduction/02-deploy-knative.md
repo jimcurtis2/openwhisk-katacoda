@@ -13,20 +13,23 @@ Now, that we understand the design of Knative, we will proceed to deploy Knative
 ```
 sed '/pluginConfig:/q' /etc/origin/master/master-config.yaml >>myjunk
 cat << 'EOL' >> myjunk
-     MutatingAdmissionWebhook:
-       configuration:
-         apiVersion: v1
-         disable: false
-         kind: DefaultAdmissionConfig
-     ValidatingAdmissionWebhook:
-       configuration:
-         apiVersion: v1
-         disable: false
-         kind: DefaultAdmissionConfig
+    MutatingAdmissionWebhook:
+      configuration:
+        apiVersion: v1
+        disable: false
+        kind: DefaultAdmissionConfig
+    ValidatingAdmissionWebhook:
+      configuration:
+        apiVersion: v1
+        disable: false
+        kind: DefaultAdmissionConfig
 EOL
 grep -A 9999 'BuildDefaults:' /etc/origin/master/master-config.yaml >>myjunk
 mv -f myjunk /etc/origin/master/master-config.yaml
+docker ps -l -q --filter "label=io.kubernetes.container.name=api"
 docker stop $(docker ps -l -q --filter "label=io.kubernetes.container.name=api")
+docker ps -l -q --filter "label=io.kubernetes.container.name=api"
+oc get nodes
 ```{{execute}}
 
 Now go on to next step.
