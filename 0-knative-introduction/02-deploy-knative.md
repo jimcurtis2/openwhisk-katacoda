@@ -28,14 +28,13 @@ grep -A 9999 'BuildDefaults:' /etc/origin/master/master-config.yaml >>myjunk
 mv -f myjunk /etc/origin/master/master-config.yaml
 ```{{execute}}
 
-``docker ps -l -q --filter "label=io.kubernetes.container.name=api"``{{execute}}
+Stop the docker container so it restarts with the new configuration.
 
 ``docker stop $(docker ps -l -q --filter "label=io.kubernetes.container.name=api")``{{execute}}
 
-``docker ps -l -q --filter "label=io.kubernetes.container.name=api"``{{execute}}
+Verify that the cluster is still up and ready to go before continuing
 
-``oc get nodes``{{execute}}
-
+``sleep 2;oc get nodes``{{execute}}
 
 Now go on to next step.
 
