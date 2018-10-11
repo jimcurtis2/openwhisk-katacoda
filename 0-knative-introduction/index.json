@@ -11,12 +11,7 @@
     },
     "environment": {
         "showdashboard": true,
-        "dashboards": [
-            {
-                "name": "OpenShift Console",
-                "port": 8443
-            }
-        ],
+        "dashboards": [],
         "uilayout": "editor-terminal",
         "uisettings": "java",
         "uieditorpath": "/root/projects/knative"
