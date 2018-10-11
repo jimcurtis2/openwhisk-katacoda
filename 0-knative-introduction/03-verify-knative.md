@@ -40,9 +40,18 @@ Now, we can apply the service yaml:
 
 **2. Verify Function**
 
-``export IP_ADDRESS=$(oc get svc knative-ingressgateway --namespace istio-system --output'jsonpath={.status.loadBalancer.ingress[0].ip}')``{{execute}}
+At this point the service is up and ready to respond to requests.  We need the Host URL and the IP address to
+curl against.  Export env vars to get these.
+
+``export IP_ADDRESS=$(oc get svc knative-ingressgateway --namespace istio-system --output 'jsonpath={.status.loadBalancer.ingress[0].ip}')``{{execute}}
 
 ``export HOST_URL=$(oc get ksvc helloworld-go  --output jsonpath='{.status.domain}')``{{execute}}
 
+Finally, execute a curl command using the env vars to demonstrate the function execution in response to our request:
+
 ``curl -H "Host: ${HOST_URL}" http://${IP_ADDRESS}``{{execute}}
 
+You should see the following response:
+``Hello World: Go Sample v1!``
+
+## Congratulations!! You have successfully deployed and verified Knative on OpenShift
