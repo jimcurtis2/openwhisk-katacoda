@@ -26,11 +26,16 @@ cat << 'EOL' >> myjunk
 EOL
 grep -A 9999 'BuildDefaults:' /etc/origin/master/master-config.yaml >>myjunk
 mv -f myjunk /etc/origin/master/master-config.yaml
-docker ps -l -q --filter "label=io.kubernetes.container.name=api"
-docker stop $(docker ps -l -q --filter "label=io.kubernetes.container.name=api")
-docker ps -l -q --filter "label=io.kubernetes.container.name=api"
-oc get nodes
 ```{{execute}}
+
+``docker ps -l -q --filter "label=io.kubernetes.container.name=api"``{{execute}}
+
+``docker stop $(docker ps -l -q --filter "label=io.kubernetes.container.name=api")``{{execute}}
+
+``docker ps -l -q --filter "label=io.kubernetes.container.name=api"``{{execute}}
+
+``oc get nodes``{{execute}}
+
 
 Now go on to next step.
 
