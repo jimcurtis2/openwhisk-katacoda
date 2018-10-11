@@ -68,6 +68,8 @@ oc adm policy add-scc-to-user anyuid -z istio-sidecar-injector-service-account -
 oc adm policy add-cluster-role-to-user cluster-admin -z istio-galley-service-account -n istio-system
 ```{{execute}}
 
+Finally, deploy Istio:
+
 ``oc apply -f istio-fixed.yaml``{{execute}}
 
 Now, wait for Istio to achieve stable state.
@@ -96,6 +98,10 @@ Next, apply the Knative Serving config:
 Now, wait for Knative Serving to achieve stable state.
 
 ``until $(oc get pods -n knative-serving | grep autoscaler | grep 2/2 > /dev/null); do sleep 1; done``{{execute}}
+
+You can verify that Knative Serving is up by doing this:
+
+``oc get pods -n knative-serving``{{execute}}
 
 ## Congratulations
 
