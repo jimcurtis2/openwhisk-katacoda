@@ -15,3 +15,6 @@ manually by the user via a command or it may be triggered by an event source tha
 response to events such as cron job alarms, file upload, or any of the many events that can be chosen.
 
 ## Knative Design
+
+## I need some good text here describing the design along with any png/gif/jpeg that illustrates this design.  If you can
+## point me at something, please e-mail me or catch me on slack.
